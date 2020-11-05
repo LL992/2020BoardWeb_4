@@ -1,0 +1,40 @@
+create table t_user(
+    i_user number primary key,
+    user_id varchar2(30) not null,
+    user_pw varchar2(100) not null,
+    nm varchar2(20) not null,
+    email varchar2(40),
+    profile_img varchar2(50),
+    r_dt date default sysdate,
+    m_dt date default sysdate
+);
+
+create table t_board4(
+    i_board number primary key,
+    title nvarchar2(100) not null,
+    ctnt nvarchar2(2000) not null,
+    hits number default 0,
+    i_user number not null,
+    r_dt date DEFAULT sysdate,
+    m_dt date DEFAULT sysdate,
+    FOREIGN key(i_user) REFERENCES t_user(i_user)
+);
+
+create table t_user_loginhistory(
+    i_history number primary key,
+    i_user number not null,
+    ip_addr varchar2(15) not null,
+    os varchar2(10) not null,
+    browser varchar2(10) not null,
+    r_dt date default sysdate,
+    foreign key(i_user) references t_user(i_user)
+);
+
+create table t_board4_like(
+    i_user number not null,
+    i_board number not null,
+    r_dt date default sysdate,
+    primary key(i_user, i_board),
+    foreign key(i_user) references t_user(i_user),
+    foreign key(i_board) references t_board4(i_board)
+);
